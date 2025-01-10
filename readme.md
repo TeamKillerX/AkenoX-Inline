@@ -23,7 +23,29 @@ it means you are ready to take the risks.
 async def example(client, message):
     await message.reply_text("Pong!")
 ```
-### C/C++ pyrogram [very fast]
+### Pyrogram c++ [extreme hard]
+- Now more powerful with <b>high-performance CPU,</b> plus optimization using <code>C++ and .so.</code>
+
+![Screenshot_20250110-094233_Chrome](https://github.com/user-attachments/assets/a3de2d7a-07d7-40b2-b804-d3f43844f0a5)
+```py
+from AkenoX.plugins.libso.ping import custom_ping # create ping.so
+from AkenoX import *
+
+@RENDYDEV.user(
+    prefix=["ping"],
+    filters=(
+        ~filters.scheduled
+        & filters.me
+        & ~filters.forwarded
+    ),
+    is_run=False
+    limit=3,
+    time_frame=10
+)
+async def example(client, message):
+    await custom_ping(client, message)
+```
+### C/C++
 - How to run .so files using through python script
 ```pyx
 # cython: language_level=3
