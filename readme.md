@@ -15,7 +15,7 @@ it means you are ready to take the risks.
 
 ![Screenshot_20250110-094233_Chrome](https://github.com/user-attachments/assets/a3de2d7a-07d7-40b2-b804-d3f43844f0a5)
 - You can support contact via telegram [`@xtdevs`](https://t.me/xtdevs)
-- `.py` Convert to `.so or .pyc` still can <b>reverse-engineer</b> don't worry
+- `.py` Convert to `.so or .pyc` can still be <b>reverse-engineered</b> don't worry
 
 ### Note:
 > [!WARNING]
