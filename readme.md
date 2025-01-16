@@ -8,7 +8,7 @@ When you have installed this userbot,
 it means you are ready to take the risks.
 ```
 ### Required Python 3.11
-- You can't python3.9
+- You can't use python3.9
 
 ### Pyrogram c++ [extreme hard]
 - Now more powerful with <b>high-performance CPU,</b> plus optimization using <code>C++ and .so.</code>
