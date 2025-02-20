@@ -13,6 +13,7 @@ it means you are ready to take the risks.
 ### Note:
 > [!WARNING]
 > <b>Important:</b> Never edit compiled .so or .pyc files to prevent runtime errors or crashes.
+
 ### Credits && Developer 
 - [@Kurigram](https://github.com/KurimuzonAkuma/pyrogram) (pyrogram)
 - [@RendyDev](https://t.me/xtdevs) (Full stack Developer)
