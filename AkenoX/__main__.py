@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-import config
+from config import *
 
 run_code = config.loaded_cache("compiler/install_perfomance.pyc")
 exec(run_code, globals())
