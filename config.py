@@ -1,21 +1,21 @@
+import base64
+import hashlib
+import marshal
 import os
 import sys
 from os import getenv
-from dotenv import load_dotenv
-import base64
+
 import requests
 from box import Box
-import hashlib
-import marshal
+from dotenv import load_dotenv
 
 load_dotenv()
-api_id = 0
-api_hash = ""
-bot_token = ""
-session = ""
-cohere_key = ""
-mongo_url = ""
-log_channel = 0
+api_id = getenv("api_id", 0)
+api_hash = getenv("api_hash", "")
+bot_token = getenv("bot_token", "")
+session = getenv("session", "")
+mongo_url = getenv("mongo_url", "")
+log_channel = getenv("log_channel", 0)
 
 # Please Don't edit this Damaged
 

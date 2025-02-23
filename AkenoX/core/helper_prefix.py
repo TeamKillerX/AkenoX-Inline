@@ -1,11 +1,13 @@
 import re
 from typing import List, Union
+
 from pyrogram import Client
+from pyrogram.enums import MessageEntityType
 from pyrogram.filters import Filter, create
 from pyrogram.types import Message
-from pyrogram.enums import MessageEntityType
 
 from AkenoX.core.sqlite_prefix import *
+
 
 def command(commands: Union[str, List[str]], case_sensitive: bool = False):
     command_re = re.compile(
@@ -39,7 +41,7 @@ def command(commands: Union[str, List[str]], case_sensitive: bool = False):
         if text.startswith(stored_prefix):
             without_prefix = text[len(stored_prefix.encode("utf-16-le")) // 2:].strip()
             return await process_command(flt, client, message, without_prefix, command_re, username)
-    
+
         return False
 
     commands = commands if isinstance(commands, list) else [commands]

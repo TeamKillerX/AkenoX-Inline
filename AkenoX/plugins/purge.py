@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Credits @xpushz on telegram 
+# Credits @xpushz on telegram
 # Copyright 2020-2024 (c) Randy W @xtdevs, @xtsea on telegram
 #
 # from : https://github.com/TeamKillerX
@@ -20,12 +20,13 @@
 
 import asyncio
 
-from pyrogram import Client, filters
-from pyrogram.types import Message 
 from pyrogram import *
+from pyrogram import Client, filters
 from pyrogram.types import *
+from pyrogram.types import Message
 
 from AkenoX import *
+
 
 @RENDYDEV.user(
     prefix=["del"],

@@ -1,5 +1,6 @@
 from pyrogram.types import InlineKeyboardButton, WebAppInfo
 
+
 class Data:
     text_help_menu = (
         "**Command List & Help**"

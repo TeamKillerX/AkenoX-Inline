@@ -1,6 +1,7 @@
 import aiofiles
 import aiohttp
 
+
 async def upload_to_catbox(dl_path: str) -> str:
     base_url = "https://catbox.moe/user/api.php"
 
