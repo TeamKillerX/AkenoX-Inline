@@ -36,6 +36,17 @@ async def _alert(client: Client, cb: CallbackQuery):
     else:
         await cb.answer("Invalid alert action.", show_alert=False)
 
+@RENDYDEV.callback(regex="^approvepm:")
+@cb_wrapper
+async def approve_callback(client, callback_query: CallbackQuery):
+    data = user_callback(callback_query, access=":")
+    user_id = int(data[1])
+    try:
+        await db_client.add_pmpermit(RENDYDEV.client_me().me.id, int(user_id))
+        await callback_query.edit_message_text("I have received you")
+    except Exception as e:
+        await callback_query.edit_message_text(f"Error: {e}")
+        
 @RENDYDEV.callback(regex="^block:")
 async def block_cb(client, callback_query):
     data = user_callback(callback_query, access=":")
