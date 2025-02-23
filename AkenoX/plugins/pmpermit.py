@@ -141,6 +141,8 @@ async def pmpermit_check(client, message):
         return
     if message.chat.id == 777000:
         return
+    if not RENDYDEV.client_me().me.username:
+        return
 
     media_type, file_id = None, None
     reply_markup = None
@@ -150,19 +152,19 @@ async def pmpermit_check(client, message):
         media = await message.download()
         if media.endswith(".jpg"):
             media_type = "photo"
-            file_id = (await assistant.send_photo("@xpushz", media)).photo.file_id
+            file_id = (await assistant.send_photo(RENDYDEV.client_me().me.username, media)).photo.file_id
             reply_markup = profile_button(message.from_user.id, message.id)
         else:
             media_type = "video"
-            file_id = (await assistant.send_video("@xpushz", media)).video.file_id
+            file_id = (await assistant.send_video(RENDYDEV.client_me().me.username, media)).video.file_id
             reply_markup = profile_button(message.from_user.id, message.id)
     elif message.photo:
         media_type = "photo"
-        file_id = (await assistant.send_photo("@xpushz", await message.download())).photo.file_id
+        file_id = (await assistant.send_photo(RENDYDEV.client_me().me.username, await message.download())).photo.file_id
         reply_markup = profile_button(message.from_user.id, message.id)
     elif message.animation:
         media_type = "animation"
-        file_id = (await assistant.send_animation("@xpushz", await message.download())).animation.file_id
+        file_id = (await assistant.send_animation(RENDYDEV.client_me().me.username, await message.download())).animation.file_id
         reply_markup = profile_button(message.from_user.id, message.id)
     elif message.sticker:
         media_type = "sticker"
