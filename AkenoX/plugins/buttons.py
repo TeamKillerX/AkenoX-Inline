@@ -46,7 +46,7 @@ async def clear_button_from_db(client, message):
         await message.reply_text("Successfully delete button from database")
     except Exception as e:
         await message.reply_text(str(e))
-    
+
 @RENDYDEV.user(prefix=["send"], filters=(filters.me & ~filters.forwarded))
 async def _save_message(client: assistant, message: Message):
     args = message.text.split("\n", 1)
