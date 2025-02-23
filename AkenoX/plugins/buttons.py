@@ -38,6 +38,15 @@ from . import ReplyCheck
 if TYPE_CHECKING:
     from AkenoX import assistant
 
+@RENDYDEV.user(prefix=["rmbutton"], filters=(filters.me & ~filters.forwarded))
+async def clear_button_from_db(client, message):
+    try:
+        me_user_id = RENDYDEV.client_me().me.id
+        await db_client.set_env(f"USERAUTO2:{me_user_id}", None)
+        await message.reply_text("Successfully delete button from database")
+    except Exception as e:
+        await message.reply_text(str(e))
+
 @RENDYDEV.user(prefix=["send"], filters=(filters.me & ~filters.forwarded))
 async def _save_message(client: assistant, message: Message):
     args = message.text.split("\n", 1)
