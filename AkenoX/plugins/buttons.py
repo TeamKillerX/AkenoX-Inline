@@ -44,6 +44,9 @@ async def _save_message(client: assistant, message: Message):
     text = args[0].split(None, 1)[1] if len(args[0].split()) > 1 else None
     button_text = args[1].strip() if len(args) > 1 else None
 
+    if not RENDYDEV.client_me().me.username:
+        return await message.reply_text("Username required")
+
     reply_message = message.reply_to_message
     if reply_message:
         text = reply_message.text.html if reply_message.text else reply_message.caption.html if reply_message.caption else ""
@@ -76,21 +79,21 @@ async def _save_message(client: assistant, message: Message):
             file_id = reply_message.sticker.file_id
         elif reply_message.photo:
             media_type = "photo"
-            file_id = (await assistant.send_photo("@xpushz", await reply_message.download())).photo.file_id
+            file_id = (await assistant.send_photo(RENDYDEV.client_me().me.username, await reply_message.download())).photo.file_id
         elif reply_message.video:
             media_type = "video"
-            file_id = (await assistant.send_video("@xpushz", await reply_message.download())).video.file_id
+            file_id = (await assistant.send_video(RENDYDEV.client_me().me.username, await reply_message.download())).video.file_id
         elif reply_message.animation:
             media_type = "animation"
-            file_id = (await assistant.send_animation("@xpushz", await reply_message.download())).animation.file_id
+            file_id = (await assistant.send_animation(RENDYDEV.client_me().me.username, await reply_message.download())).animation.file_id
         elif reply_message.story:
             media = await reply_message.download()
             if media.endswith(".jpg"):
                 media_type = "photo"
-                file_id = (await assistant.send_photo("@xpushz", media)).photo.file_id
+                file_id = (await assistant.send_photo(RENDYDEV.client_me().me.username, media)).photo.file_id
             else:
                 media_type = "video"
-                file_id = (await assistant.send_video("@xpushz", media)).video.file_id
+                file_id = (await assistant.send_video(RENDYDEV.client_me().me.username, media)).video.file_id
 
     save_data = RENDYDEV.set_storage(
         file_id=file_id or "",
