@@ -13,13 +13,13 @@ it means you are ready to take the risks.
 
 ### Your problem Run
 ```
-Why is ModuleNotFoundError: No module named 'config' happening?  
+Why is ModuleNotFoundError: No module named 'config' happening?
 
 ModuleNotFoundError: No module named 'config'
 This happens because Python can't find the config module in your project.
 
-Solution: Use Dockerfile Instead  
-Doesn’t Work:  
+Solution: Use Dockerfile Instead
+Doesn’t Work:
 python3 -m AkenoX
 This won’t work because AkenoX-Inline requires high-performance compiled files (.pyc and .so).
 ```
