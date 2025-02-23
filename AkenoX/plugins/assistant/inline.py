@@ -39,6 +39,162 @@ async def help_function(answers):
     )
     return answers
 
+@RENDYDEV.inline(regex="^userauto:")
+async def userbutton_inline(client, inline_query):
+    data = user_inline(inline_query, access=":")
+    user_id = int(data[1])
+    length_max = await db_client.get_env(f"USERAUTO2:{user_id}")
+    if length_max["media_photo"]:
+        deserialized_reply_markup = deserialize_reply_markup(length_max["reply_markup"])
+        answers = send_photo_inline(
+            file_id=length_max["file_id"],
+            caption=length_max["caption"],
+            reply_markup=deserialized_reply_markup
+
+        )
+        await client.answer_inline_query(
+            inline_query.id,
+            cache_time=5,
+            results=answers
+        )
+    elif length_max["is_sticker"]:
+        deserialized_reply_markup = deserialize_reply_markup(length_max["reply_markup"])
+        answers = send_sticker_inline(
+            file_id=length_max["file_id"],
+            reply_markup=deserialized_reply_markup
+        )
+        await client.answer_inline_query(
+            inline_query.id,
+            cache_time=5,
+            results=answers
+        )
+    elif length_max["is_animation"]:
+        deserialized_reply_markup = deserialize_reply_markup(length_max["reply_markup"])
+        answers = send_animation_inline(
+            file_id=length_max["file_id"],
+            caption=length_max["caption"],
+            reply_markup=deserialized_reply_markup
+        )
+        await client.answer_inline_query(
+            inline_query.id,
+            cache_time=5,
+            results=answers
+        )
+    else:
+        deserialized_reply_markup = deserialize_reply_markup(length_max["reply_markup"])
+        answers = BuilderInline.send_text_inline(
+            inline_text=length_max["input_text"],
+            reply_markup=deserialized_reply_markup
+        )
+    try:
+        await client.answer_inline_query(
+            inline_query.id,
+            cache_time=5,
+            results=answers
+        )
+    except Exception as e:
+        response_status = BuilderInline.send_text_inline(str(e))
+        await client.answer_inline_query(
+            inline_query.id,
+            results=response_status
+        )
+
+@RENDYDEV.inline(regex="^pmblockby:")
+async def pmblock_inline(client, inline_query):
+    data = user_inline(inline_query, access=":")
+    user_id = int(data[1])
+    length_max = await db_client.get_env(f"PM_LOG:{user_id}")
+    bttn = [
+        [
+            InlineKeyboardButton("ME DUROV", url="https://t.me/durov"),
+        ],
+    ]
+    answers = BuilderInline.send_text_inline(
+        inline_text=length_max.get('input_text'),
+        reply_markup=InlineKeyboardMarkup(bttn)
+    )
+    try:
+        await client.answer_inline_query(
+            inline_query.id,
+            results=answers,
+            cache_time=10
+        ),
+    except Exception as e:
+        LOGS.info(f"Query ID: {inline_query.id}: {e}")
+
+@RENDYDEV.inline(regex="^pmapprove:")
+async def pmapprove_inline(client, inline_query):
+    data = user_inline(inline_query, access=":")
+    user_id = int(data[1])
+    length_max = await db_client.get_env(f"PM_LOG:{user_id}")
+    bttn = [
+        [
+            InlineKeyboardButton("⚠️ Approved PM", callback_data=f"approvepm:{int(length_max['user_id'])}"),
+        ],
+    ]
+    if length_max["media_photo"]:
+        deserialized_reply_markup = deserialize_reply_markup(length_max["reply_markup"])
+        answers = send_photo_inline(
+            file_id=length_max["file_id"],
+            caption=length_max["caption"],
+            reply_markup=deserialized_reply_markup
+        )
+        await client.answer_inline_query(
+            inline_query.id,
+            cache_time=5,
+            results=answers
+        )
+    elif length_max["is_sticker"]:
+        deserialized_reply_markup = deserialize_reply_markup(length_max["reply_markup"])
+        answers = send_sticker_inline(
+            file_id=length_max["file_id"],
+            reply_markup=deserialized_reply_markup
+        )
+        await client.answer_inline_query(
+            inline_query.id,
+            cache_time=5,
+            results=answers
+        )
+    else:
+        answers = BuilderInline.send_text_inline(
+            inline_text=length_max.get('input_text2'),
+            reply_markup=InlineKeyboardMarkup(bttn)
+        )
+    try:
+        await client.answer_inline_query(
+            inline_query.id,
+            results=answers,
+            cache_time=10
+        ),
+    except Exception as e:
+        LOGS.info(f"Query ID: {inline_query.id}: {e}")
+
+@RENDYDEV.inline(regex="^pmlog:")
+async def pmlog_inline(client, inline_query):
+    data = user_inline(inline_query, access=":")
+    user_id = int(data[1])
+    length_max = await db_client.get_env(f"TAG_LINK:{user_id}")
+    bttn = [
+        [
+            InlineKeyboardButton("🔗 Message Link", url=length_max["message_link"]),
+        ],
+        [
+            InlineKeyboardButton("🚷 Block User", callback_data=f"block:{length_max['user_id']}")
+        ]
+    ]
+    answers = BuilderInline.send_text_inline(
+        inline_text=length_max.get("input_text"),
+        reply_markup=InlineKeyboardMarkup(bttn)
+    )
+    try:
+        await client.answer_inline_query(
+            inline_query.id,
+            results=answers,
+            cache_time=10
+        ),
+    except Exception as e:
+        LOGS.info(f"Query ID: {inline_query.id}: {e}")
+
 @RENDYDEV.inline(regex="^eval_")
 async def eval_inline(client, inline_query):
     data = user_inline(inline_query, access="_")
