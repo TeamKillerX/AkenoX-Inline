@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Credits @xpushz on telegram 
+# Credits @xpushz on telegram
 # Copyright 2020-2024 (c) Randy W @xtdevs, @xtsea on telegram
 #
 # from : https://github.com/TeamKillerX
@@ -46,7 +46,7 @@ async def approve_callback(client, callback_query: CallbackQuery):
         await callback_query.edit_message_text("I have received you")
     except Exception as e:
         await callback_query.edit_message_text(f"Error: {e}")
-        
+
 @RENDYDEV.callback(regex="^block:")
 async def block_cb(client, callback_query):
     data = user_callback(callback_query, access=":")
@@ -160,7 +160,7 @@ async def reopen_in_cb(_, callback_query):
         new_get_text,
         disable_web_page_preview=True,
         reply_markup=InlineKeyboardMarkup(buttons),
-    )            
+    )
 
 @RENDYDEV.callback(regex="ub_modul_(.*)")
 @cb_wrapper

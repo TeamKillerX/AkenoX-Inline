@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Credits @xpushz on telegram 
+# Credits @xpushz on telegram
 # Copyright 2020-2024 (c) Randy W @xtdevs, @xtsea on telegram
 #
 # from : https://github.com/TeamKillerX
@@ -24,6 +24,7 @@ from pyrogram.types import *
 from AkenoX import *
 from AkenoX import running_tasks
 
+
 @RENDYDEV.user(prefix="stop_task", filters=(filters.me & ~filters.forwarded))
 async def stop_task(client, message):
     global running_tasks
@@ -31,7 +32,7 @@ async def stop_task(client, message):
         command = message.text.split(" ", maxsplit=1)
         if len(command) < 2:
             return await message.reply("❗ Please provide a valid task ID to stop.")
-        
+
         task_id = command[1].strip()
         if task_id in running_tasks:
             task = running_tasks.pop(task_id)

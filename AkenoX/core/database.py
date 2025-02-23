@@ -1,10 +1,12 @@
 from datetime import datetime as dt
+
 from motor import motor_asyncio
 from motor.core import AgnosticClient
 from motor.motor_asyncio import AsyncIOMotorClient
-from AkenoX.core.logger import *
 
+from AkenoX.core.logger import *
 from config import *
+
 
 class Database:
     def __init__(self, uri: str) -> None:
@@ -47,7 +49,7 @@ class Database:
 
     async def get_all_env(self) -> list:
         return [i async for i in self.env.find({})]
-    
+
     async def add_pmpermit(self, client: int, user: int):
         await self.pmpermit.update_one(
             {"client": client, "user": user},

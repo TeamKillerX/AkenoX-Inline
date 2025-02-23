@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Credits @xpushz on telegram 
+# Credits @xpushz on telegram
 # Copyright 2020-2024 (c) Randy W @xtdevs, @xtsea on telegram
 #
 # from : https://github.com/TeamKillerX
@@ -19,9 +19,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import asyncio
+
 from pyrogram import *
-from pyrogram.types import *
 from pyrogram.enums import *
+from pyrogram.types import *
 
 from AkenoX import *
 from AkenoX.core.database import *
@@ -47,7 +48,7 @@ async def taglog_setting(_, message: Message):
             f"**Current TagLog Setting:** `{text}`\n\nTo change the setting give either `on` or `off` as argument.",
         )
         return
-    
+
     cmd = message.command[1].lower().strip()
     if cmd == "on":
         await db_client.set_env(TAGLOG_KEY, True)
@@ -66,7 +67,7 @@ async def logs_channel(client, message):
     if message.reply_to_message and message.reply_to_message.from_user:
         if message.reply_to_message.from_user.id != client.me.id:
             return
-            
+
     if message.from_user.status == UserStatus.LONG_AGO:
         if message.reply_to_message.id:
             await message.reply_to_message.delete()
@@ -96,7 +97,7 @@ def get_user_info(client, message):
         return f"""
         Group Title: {message.chat.title}
         Group ID: {message.chat.id}
-        
+
         First Name: {message.from_user.first_name}
         UserID: `{message.from_user.id}`
         Username: {message.from_user.username if message.from_user else None}

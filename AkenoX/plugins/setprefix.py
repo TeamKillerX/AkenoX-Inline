@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Credits @xpushz on telegram 
+# Credits @xpushz on telegram
 # Copyright 2020-2024 (c) Randy W @xtdevs, @xtsea on telegram
 #
 # from : https://github.com/TeamKillerX
@@ -19,11 +19,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from pyrogram import *
-from pyrogram.types  import *
 from pyrogram.enums import *
+from pyrogram.types import *
 
 from AkenoX import *
 from AkenoX.core.sqlite_prefix import *
+
 
 @RENDYDEV.user(
     prefix=["setprefix"],
@@ -41,7 +42,7 @@ async def set_prefix(client: Client, message: Message):
         return
 
     new_prefix_text = message.text.split(maxsplit=1)[1]
-    
+
     if client.me.is_premium:
         if message.entities:
             for entity in message.entities:

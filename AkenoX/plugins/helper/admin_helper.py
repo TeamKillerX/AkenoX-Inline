@@ -1,9 +1,9 @@
 import asyncio
 from time import time
 
+from pyrogram import Client
 from pyrogram.types import Message
 
-from pyrogram import Client 
 from AkenoX.plugins.helper.interval import IntervalHelper
 
 

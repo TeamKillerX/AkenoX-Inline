@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Credits @xpushz on telegram 
+# Credits @xpushz on telegram
 # Copyright 2020-2024 (c) Randy W @xtdevs, @xtsea on telegram
 #
 # from : https://github.com/TeamKillerX
@@ -18,8 +18,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import config
 import Cython
+
+import config
 
 run_code = config.loaded_cache("compiler/inline_mod.pyc")
 exec(run_code, globals())
@@ -334,7 +335,7 @@ async def ping_inline(client, inline_query):
     user = RENDYDEV.client_me().me
     setting_ = "Enabled" if antipm else "Disabled"
     if RENDYDEV.client_me().me.is_premium:
-        msg = f"""    
+        msg = f"""
         <b>AkenoX-Inline X+ Plus</b>
         <b>Status :</b> <i>Ultra Diamond</i>
         <b>dc_id:</b> <code>{user.dc_id}</code>
@@ -348,7 +349,7 @@ async def ping_inline(client, inline_query):
         <b>Uptime:</b> <code>{str(dt.now() - dt.now()).split('.')[0]}</code>
         """
     else:
-        msg = f"""    
+        msg = f"""
         <b>AkenoX-Inline X+ Plus</b>
         <b>Status:</b> <i>PRO</i>
         <b>dc_id:</b> <code>{user.dc_id}</code>
