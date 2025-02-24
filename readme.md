@@ -1,4 +1,5 @@
 ### AkenoX-Inline
+![Image](https://github.com/user-attachments/assets/46938fcc-81aa-434f-beff-e26b684aa52c)
 - ⚠️ Disclaimer ⚠️
 ```
 I am not responsible for any misuse of this bot.
@@ -9,8 +10,7 @@ it means you are ready to take the risks.
 ```
 ### Required Python 3.11
 - Via `Dockerfile` Support (Python3.11)
-- Try running `python3 -m AkenoX` or `Dockerfile` if needed
-
+- Doesn't work using `python3 -m AkenoX` better `Dockerfile` it worked
 ### Your problem Run
 ```
 Why is ModuleNotFoundError: No module named 'config' happening?
