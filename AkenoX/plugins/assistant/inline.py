@@ -25,6 +25,16 @@ import config
 run_code = config.loaded_cache("compiler/inline_mod.pyc")
 exec(run_code, globals())
 
+def send_video_inline(file_id, title="ahkontol", **args):
+    answers = [
+        InlineQueryResultCachedVideo(
+            video_file_id=file_id,
+            title=title,
+            **args
+        )
+    ]
+    return answers
+
 async def help_function(answers):
     bttn = paginate_help(0, CMD_HELP, "helpme")
     user_id = RENDYDEV.client_me().me.id
@@ -52,6 +62,18 @@ async def userbutton_inline(client, inline_query):
             caption=length_max["caption"],
             reply_markup=deserialized_reply_markup
 
+        )
+        await client.answer_inline_query(
+            inline_query.id,
+            cache_time=5,
+            results=answers
+        )
+    elif length_max["media_video"]:
+        deserialized_reply_markup = deserialize_reply_markup(length_max["reply_markup"])
+        answers = send_video_inline(
+            file_id=length_max["file_id"],
+            caption=length_max["caption"],
+            reply_markup=deserialized_reply_markup
         )
         await client.answer_inline_query(
             inline_query.id,
