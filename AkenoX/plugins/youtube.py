@@ -72,6 +72,25 @@ def button_inline(user_id: int, url: str):
         ]
     )
 
+def cleanup_files(yt_file: str):
+    for ext in [".jpg", ".mp4"]:
+        try:
+            os.remove(f"{yt_file}{ext}")
+        except OSError:
+            pass
+
+def extract_youtube_info(url: str):
+    with YoutubeDL(YoutubeDriver.video_options()) as ytdl:
+        yt_data = ytdl.extract_info(url, True)
+    return yt_data, yt_data["id"]
+
+def format_caption(yt_data: dict) -> str:
+    return (
+        f"**🎧 𝖳𝗂𝗍𝗅𝖾:** {yt_data['title']} \n\n"
+        f"**👀 𝖵𝗂𝖾𝗐𝗌:** `{yt_data['view_count']}` \n"
+        f"**⌛ 𝖣𝗎𝗋𝖺𝗍𝗂𝗈𝗇:** `{secs_to_mins(int(yt_data['duration']))}`"
+    )
+
 @RENDYDEV.user(
     prefix=["ytv"],
     filters=(
@@ -84,51 +103,40 @@ def button_inline(user_id: int, url: str):
     time_frame=10
 )
 async def ytvideo(client: assistant, message):
-    reply_markup = None
     if len(message.command) < 2:
-        return await message.reply_text(
-            "Give a valid youtube link to download video."
-        )
+        return await message.reply_text("Give a valid youtube link to download video.")
+
     query = await input_user(message)
     pro = await message.reply_text("Checking ...")
     username_me = RENDYDEV.client_me().me.username
     if not username_me:
-        return await message.reply_text("?")
+        return await message.reply_text("Username required")
     status, url = YoutubeDriver.check_url(query)
     if not status:
         return await pro.edit_text(url)
     await pro.edit_text(f"__Downloading video ...__")
     try:
-        with YoutubeDL(YoutubeDriver.video_options()) as ytdl:
-            yt_data = ytdl.extract_info(url, True)
-            yt_file = yt_data["id"]
-
-        upload_text = f"**𝖴𝗉𝗅𝗈𝖺𝖽𝗂𝗇𝗀 Video ...** \n\n**𝖳𝗂𝗍𝗅𝖾:** `{yt_data['title'][:50]}`\n**𝖢𝗁𝖺𝗇𝗇𝖾𝗅:** `{yt_data['channel']}`"
-        await pro.edit_text(upload_text)
+        yt_data, yt_file = extract_youtube_info(url)
+        caption = format_caption(yt_data)
+        await pro.edit_text(f"**𝖴𝗉𝗅𝗈𝖺𝖽𝗂𝗇𝗀 Video ...** \n\n**𝖳𝗂𝗍𝗅𝖾:** `{yt_data['title'][:50]}`\n**𝖢𝗁𝖺𝗇𝗇𝖾𝗅:** `{yt_data['channel']}`")
         response = requests.get(f"https://i.ytimg.com/vi/{yt_data['id']}/hqdefault.jpg")
         with open(f"{yt_file}.jpg", "wb") as f:
             f.write(response.content)
         results = await assistant.send_video(
             username_me,
             f"{yt_file}.mp4",
-            caption=f"**🎧 𝖳𝗂𝗍𝗅𝖾:** {yt_data['title']} \n\n**👀 𝖵𝗂𝖾𝗐𝗌:** `{yt_data['view_count']}` \n**⌛ 𝖣𝗎𝗋𝖺𝗍𝗂𝗈𝗇:** `{secs_to_mins(int(yt_data['duration']))}`",
+            caption=caption,
             duration=int(yt_data["duration"]),
             thumb=f"{yt_file}.jpg",
             progress=progress,
-            progress_args=(
-                pro,
-                time.time(),
-                upload_text,
-            ),
+            progress_args=(pro, time.time(), caption),
         )
         file_id = results.video.file_id
         reply_markup = button_inline(RENDYDEV.client_me().me.id, query)
-        serialized_reply_markup = (
-            serialize_reply_markup(reply_markup) if reply_markup else None
-        )
+        serialized_reply_markup = serialize_reply_markup(reply_markup) if reply_markup else None
         save_data = RENDYDEV.set_storage(
             file_id=file_id or "",
-            caption=f"**🎧 𝖳𝗂𝗍𝗅𝖾:** {yt_data['title']} \n\n**👀 𝖵𝗂𝖾𝗐𝗌:** `{yt_data['view_count']}` \n**⌛ 𝖣𝗎𝗋𝖺𝗍𝗂𝗈𝗇:** `{secs_to_mins(int(yt_data['duration']))}`",
+            caption=caption,
             media_photo=False,
             is_sticker=False,
             is_animation=False,
@@ -144,13 +152,10 @@ async def ytvideo(client: assistant, message):
             message.chat.id,
             oh.query_id,
             oh.results[0].id,
-            reply_to_message_id=ReplyCheck(message)
+            reply_to_message_id=ReplyCheck(message),
         )
         await pro.delete()
     except Exception as e:
         return await pro.edit_text(f"**🍀 Video not Downloaded:** `{e}`")
-    try:
-        os.remove(f"{yt_file}.jpg")
-        os.remove(f"{yt_file}.mp4")
-    except:
-        pass
+    finally:
+        cleanup_files(yt_file)
