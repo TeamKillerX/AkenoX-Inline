@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Credits @xpushz on telegram 
+# Credits @xpushz on telegram
 # Copyright 2020-2024 (c) Randy W @xtdevs, @xtsea on telegram
 #
 # from : https://github.com/TeamKillerX
@@ -19,24 +19,26 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import os
-import requests 
-from pyrogram.types import *
-from pyrogram.errors import *
 from typing import TYPE_CHECKING
+
+import requests
+from pyrogram.errors import *
+from pyrogram.types import *
+
 from AkenoX import *
-from AkenoX.core.scripts import progress
 from AkenoX.core.helper_button import *
 from AkenoX.core.logger import LOGS
+from AkenoX.core.scripts import progress
+from AkenoX.plugins.libso.cybersecurity_hdr import *
 
 from . import ReplyCheck
-
-from AkenoX.plugins.libso.cybersecurity_hdr import *
 
 if TYPE_CHECKING:
     from AkenoX import assistant
 
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
+
 
 def secs_to_mins(secs: int) -> str:
     mins, secs = divmod(secs, 60)
@@ -100,7 +102,7 @@ async def ytvideo(client: assistant, message):
         with YoutubeDL(YoutubeDriver.video_options()) as ytdl:
             yt_data = ytdl.extract_info(url, True)
             yt_file = yt_data["id"]
-        
+
         upload_text = f"**𝖴𝗉𝗅𝗈𝖺𝖽𝗂𝗇𝗀 Video ...** \n\n**𝖳𝗂𝗍𝗅𝖾:** `{yt_data['title'][:50]}`\n**𝖢𝗁𝖺𝗇𝗇𝖾𝗅:** `{yt_data['channel']}`"
         await pro.edit_text(upload_text)
         response = requests.get(f"https://i.ytimg.com/vi/{yt_data['id']}/hqdefault.jpg")
