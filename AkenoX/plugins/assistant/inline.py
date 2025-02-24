@@ -25,11 +25,11 @@ import config
 run_code = config.loaded_cache("compiler/inline_mod.pyc")
 exec(run_code, globals())
 
-def send_video_inline(file_id, **args):
+def send_video_inline(file_id, title="ahkontol", **args):
     answers = [
         InlineQueryResultCachedVideo(
             video_file_id=file_id,
-            title="ahkontol",
+            title=title,
             **args
         )
     ]
