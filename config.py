@@ -10,12 +10,12 @@ from box import Box
 from dotenv import load_dotenv
 
 load_dotenv()
-api_id = getenv("api_id", 0)
-api_hash = getenv("api_hash", "")
-bot_token = getenv("bot_token", "")
-session = getenv("session", "")
-mongo_url = getenv("mongo_url", "")
-log_channel = getenv("log_channel", 0)
+api_id = getenv("API_ID", 0)
+api_hash = getenv("API_HASH", "")
+bot_token = getenv("BOT_TOKEN", "")
+session = getenv("SESSION_STRING", "")
+mongo_url = getenv("MONGO_URL", "")
+log_channel = getenv("LOG_CHANNEL", 0)
 
 # Please Don't edit this Damaged
 
