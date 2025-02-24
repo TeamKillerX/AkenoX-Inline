@@ -11,7 +11,7 @@ it means you are ready to take the risks.
 ### Required Python 3.11
 - Via `Dockerfile` Support (Python3.11)
 - Running the application with `python3 -m AkenoX` may encounter module path issues (e.g., ModuleNotFoundError). It is recommended to use the provided Dockerfile, which sets up a working Python 3.11 environment.
-### Your problem Run
+### Your problem:
 ```
 Why is ModuleNotFoundError: No module named 'config' happening?
 
