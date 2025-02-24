@@ -103,7 +103,7 @@ async def shell_exec(
     stderr=asyncio.subprocess.PIPE,
 ) -> Tuple[int, str, str]:
     """Executes shell command and returns tuple with return code, decoded stdout, and stderr."""
-    
+
     if executable is None:
         # Set a default shell based on the platform
         if sys.platform == "win32":
@@ -112,10 +112,10 @@ async def shell_exec(
             executable = "/bin/bash"
 
     process = await asyncio.create_subprocess_shell(
-        cmd=command, 
-        stdout=stdout, 
-        stderr=stderr, 
-        shell=True, 
+        cmd=command,
+        stdout=stdout,
+        stderr=stderr,
+        shell=True,
         executable=executable
     )
 
