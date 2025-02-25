@@ -358,7 +358,7 @@ async def ping_inline(client, inline_query):
     setting_ = "Enabled" if antipm else "Disabled"
     if RENDYDEV.client_me().me.is_premium:
         msg = f"""
-        <b>AkenoX-Inline X+ Plus</b>
+        <b>sabo-Inline X+ Plus</b>
         <b>Status :</b> <i>Ultra Diamond</i>
         <b>dc_id:</b> <code>{user.dc_id}</code>
         <b>ping_dc:</b> <code>{ping}</code>
@@ -372,7 +372,7 @@ async def ping_inline(client, inline_query):
         """
     else:
         msg = f"""
-        <b>AkenoX-Inline X+ Plus</b>
+        <b>sabo-Inline X+ Plus</b>
         <b>Status:</b> <i>PRO</i>
         <b>dc_id:</b> <code>{user.dc_id}</code>
         <b>ping_dc:</b> <code>{ping}</code>
