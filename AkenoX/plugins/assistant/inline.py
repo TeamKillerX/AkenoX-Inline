@@ -50,6 +50,29 @@ async def help_function(answers):
     )
     return answers
 
+@RENDYDEV.inline(regex="^warnpro:")
+async def warn_inline(client, inline_query):
+    data = user_inline(inline_query, access=":")
+    user_id = int(data[1])
+    warns = await db_client.get_env(f"USER_WARN:{user_id}")
+    bttn = [
+        [
+            InlineKeyboardButton("🔘 Remove Warn", callback_data=f"unwarn_{warns['warn_user_id']}"),
+        ],
+    ]
+    answers = BuilderInline.send_text_inline(
+        inline_text=warns["input_text"],
+        reply_markup=InlineKeyboardMarkup(bttn)
+    )
+    try:
+        await client.answer_inline_query(
+            inline_query.id,
+            results=answers,
+            cache_time=5
+        ),
+    except Exception as e:
+        LOGS.info(f"Query ID: {inline_query.id}: {e}")
+
 @RENDYDEV.inline(regex="^userauto:")
 async def userbutton_inline(client, inline_query):
     data = user_inline(inline_query, access=":")
