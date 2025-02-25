@@ -1,5 +1,6 @@
 from AkenoX import *
 from AkenoX.plugins.libso.funcs_admin import *
+from AkenoX.plugins.helper.custom_admin import temporary_mute_user
 
 
 @RENDYDEV.user(prefix=["promote", "fullpromote"], filters=(filters.me & ~filters.forwarded))
