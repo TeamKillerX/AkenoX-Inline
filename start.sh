@@ -30,7 +30,7 @@ docker run -d --name akenox-inline \
   -e "SESSION_STRING=$SESSION_STRING" \
   -e "MONGO_URL=$MONGO_URL" \
   -e "LOG_CHANNEL=$LOG_CHANNEL" \
-  akenoX-inline
+  akenox-inline
 
 echo "Viewing logs..."
 docker logs -f akenox-inline
