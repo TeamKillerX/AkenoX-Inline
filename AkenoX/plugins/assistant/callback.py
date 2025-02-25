@@ -23,6 +23,29 @@ import config
 run_code = config.loaded_cache("compiler/callback_mod.pyc")
 exec(run_code, globals())
 
+@RENDYDEV.callback(regex="^unwarn_")
+async def remove_warning(_, callback_query):
+    data = user_callback(callback_query, access="_")
+    user_id = int(data[1])
+    warns = await db_client.get_env(f"USER_WARN:{user_id}")
+    if warns:
+        warns_count = warns["warn_count"]["warns"]
+        input_text = warns["input_text"]
+        chat_id = warns["chat_id"]
+        warn_user_id = warns["warn_user_id"]
+    if not warns or warns_count == 0:
+        return await callback_query.answer("User has no warnings.")
+    warn = {"warns": warns_count - 1}
+    data_warn = RENDYDEV.set_storage(
+        input_text=input_text,
+        chat_id=chat_id,
+        warn_user_id=warn_user_id,
+        warn_count=warn
+    )
+    await db_client.set_env(f"USER_WARN:{user_id}", data_warn)
+    text = f"__Warn removed by {callback_query.from_user.mention}__"
+    await callback_query.edit_message_text(text)
+
 @RENDYDEV.callback(regex="^alert_")
 async def _alert(client: Client, cb: CallbackQuery):
     query = cb.data.split("_", 1)
