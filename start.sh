@@ -4,10 +4,10 @@ echo "Updating packages and installing Docker..."
 sudo apt update && sudo apt -y install docker.io
 
 echo "Building Docker image..."
-docker build -t AkenoX-Inline ~/AkenoX-Inline/
+docker build -t akenox-inline ~/akenox-inline/
 
 echo "Removing existing container..."
-docker rm -f AkenoX-Inline
+docker rm -f akenox-inline
 
 echo "Running Docker container..."
 echo "Send your API ID: "
@@ -23,14 +23,14 @@ read MONGO_URL
 echo "Send your LOG CHANNEL: "
 read LOG_CHANNEL
 
-docker run -d --name AkenoX-Inline \
+docker run -d --name akenox-inline \
   -e "API_ID=$API_ID" \
   -e "API_HASH=$API_HASH" \
   -e "BOT_TOKEN=$BOT_TOKEN" \
   -e "SESSION_STRING=$SESSION_STRING" \
   -e "MONGO_URL=$MONGO_URL" \
   -e "LOG_CHANNEL=$LOG_CHANNEL" \
-  AkenoX-Inline
+  akenox-inline
 
 echo "Viewing logs..."
-docker logs -f AkenoX-Inline
+docker logs -f akenox-inline
