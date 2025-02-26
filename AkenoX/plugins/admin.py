@@ -10,27 +10,22 @@ async def id_handler(client, message):
     if user_info:
         chat_id = message.chat.id
         text = (
-            f"**User Info:**\n"
-            f"👤 Name: {user_info['first_name']}\n"
-            f"🔗 Username: {user_info['username']}\n"
-            f"🆔 User ID: `{user_info['user_id']}`\n"
-            f"💬 Chat ID: `{chat_id}`\n"
-            f"🔗 Mention: {user_info['mention']}"
+            f" Chat ID: `{chat_id}`\n"
         )
         await message.reply_text(text, disable_web_page_preview=True)
 
 
-@RENDYDEV.user(prefix=["userinfo"], filters=(filters.me & ~filters.forwarded))
+@RENDYDEV.user(prefix=["info"], filters=(filters.me & ~filters.forwarded))
 async def userinfo_handler(client, message):
     """Fetch user details and display them."""
     user_info = await get_user_info(client, message)
     if user_info:
         text = (
-            f"User Details:\n"
-            f"👤 Name: {user_info['first_name']}\n"
-            f"🔗 Username: {user_info['username']}\n"
-            f"🆔 User ID: `{user_info['user_id']}`\n"
-            f"🔗 Mention: {user_info['mention']}"
+            f" User Info:\n"
+            f" Name: {user_info['first_name']}\n"
+            f" Username: {user_info['username']}\n"
+            f" User ID: {user_info['user_id']}\n"
+            f" Mention: {user_info['mention']}"
         )
         await message.reply_text(text, disable_web_page_preview=True)
 
