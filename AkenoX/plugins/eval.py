@@ -155,9 +155,6 @@ async def evaluation_cmd(client, message):
     finally:
         running_tasks.pop(task_id, None)
 
-import subprocess
-
-
 @RENDYDEV.user(
     prefix=["sh"],
     filters=(
@@ -187,7 +184,6 @@ async def shell_cmd(client, message):
 
         final_output = f"**OUTPUT**:\n<pre language=''>{output}</pre>"
 
-        # Store in DB for inline retrieval
         await db_client.set_env(f"SH:{client.me.id}", {
             "input_text": output,
             "chat_id": message.chat.id,
