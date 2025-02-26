@@ -4,7 +4,6 @@ from AkenoX import *
 from AkenoX.plugins.helper.custom import get_user_info, temporary_mute_user
 from AkenoX.plugins.libso.funcs_admin import *
 
-
 @RENDYDEV.user(prefix=["id"], filters=(filters.me & ~filters.forwarded))
 async def id_handler(client, message):
     if message.reply_to_message and message.reply_to_message.from_user:
@@ -17,10 +16,6 @@ async def id_handler(client, message):
         user_info = f"<blockquote><b>Chat ID:</b> <code>{chat.id}</code></blockquote>"
 
     await message.reply_text(user_info, parse_mode=ParseMode.HTML)
-
-
-
-
 
 @RENDYDEV.user(prefix=["info"], filters=(filters.me & ~filters.forwarded))
 async def userinfo_handler(client, message):
@@ -37,50 +32,39 @@ async def userinfo_handler(client, message):
         f"Username: @{user.username if user.username else 'N/A'}\n"
         f"Chat ID: {chat.id}\n"
     )
-
     await message.reply_text(user_info)
-
-
 
 @RENDYDEV.user(prefix=["promote", "fullpromote"], filters=(filters.me & ~filters.forwarded))
 async def promoted_handler(client, message):
     await promotte_user(client, message)
 
-
 @RENDYDEV.user(prefix=["demote"], filters=(filters.me & ~filters.forwarded))
 async def demote_handler(client, message):
     await demote_user(client, message)
-
 
 @RENDYDEV.user(prefix=["ban", "dban"], filters=(filters.me & ~filters.forwarded))
 async def member_ban_handler(client, message):
     await member_ban_user(client, message)
 
-
 @RENDYDEV.user(prefix="unmute", filters=(filters.me & ~filters.forwarded))
 async def unmute_handler(client, message):
     await unmute_user(client, message)
-
 
 @RENDYDEV.user(prefix="pin", filters=(filters.me & ~filters.forwarded))
 async def pin_handler(client, message):
     await pin_message(client, message)
 
-
 @RENDYDEV.user(prefix=["mute", "dmute"], filters=(filters.me & ~filters.forwarded))
 async def mute_handler(client, message):
     await mute_user(client, message)
-
 
 @RENDYDEV.user(prefix=["kick", "dkick"], filters=(filters.me & ~filters.forwarded))
 async def kick_handler(client, message):
     await kick_user(client, message)
 
-
 @RENDYDEV.user(prefix=["tmute"], filters=(filters.me & ~filters.forwarded))
 async def tmute_handler(client, message):
-    await temporary_mute_user(client, message)  # Function to handle temporary mute
-
+    await temporary_mute_user(client, message)
 
 RENDYDEV.buttons(
     "admin",
