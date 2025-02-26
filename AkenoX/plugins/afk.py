@@ -1,9 +1,8 @@
 from AkenoX import *
 from AkenoX.plugins.libso.funcs_afk import *
 
-
 @RENDYDEV.user(
-    prefix=["aafk"],
+    prefix=["aafk", "afk"],
     filters=(
         ~filters.scheduled
         & filters.me
