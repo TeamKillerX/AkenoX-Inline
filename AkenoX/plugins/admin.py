@@ -1,7 +1,7 @@
 from AkenoX import *
 from AkenoX.plugins.libso.funcs_admin import *
 from AkenoX.plugins.helper.custom import temporary_mute_user
-from Akenox.plugins.helper.custom import get_user_info
+from AkenoX.plugins.helper.custom import get_user_info
 
 @RENDYDEV.user(prefix=["id"], filters=(filters.me & ~filters.forwarded))
 async def id_handler(client, message):
