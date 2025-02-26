@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
 import asyncio
 import inspect
 import io
@@ -149,6 +148,77 @@ async def evaluation_cmd(client, message):
                 await status_message.edit_text(str(e))
 
     task = asyncio.create_task(execute_eval())
+    running_tasks[task_id] = task
+    await status_message.edit_text(f" Task Started \nTask ID: `{task_id}`")
+    try:
+        await task
+    finally:
+        running_tasks.pop(task_id, None)
+
+import subprocess
+
+
+@RENDYDEV.user(
+    prefix=["sh"],
+    filters=(
+        ~filters.scheduled
+        & filters.me
+        & ~filters.forwarded
+    ),
+    is_run=False
+)
+async def shell_cmd(client, message):
+    global running_tasks
+    user_id = message.from_user.id if message.from_user else None
+    task_id = uuid.uuid4().hex[:8]
+    status_message = await message.reply("__Processing shell command...__")
+
+    try:
+        cmd = message.text.split(" ", maxsplit=1)[1]
+    except IndexError:
+        return await status_message.edit("__No command provided!__")
+
+    async def execute_shell():
+        process = subprocess.Popen(
+            cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+        stdout, stderr = process.communicate()
+        output = (stdout.decode().strip() or stderr.decode().strip() or "Success")
+
+        final_output = f"**OUTPUT**:\n<pre language=''>{output}</pre>"
+
+        # Store in DB for inline retrieval
+        await db_client.set_env(f"SH:{client.me.id}", {
+            "input_text": output,
+            "chat_id": message.chat.id,
+            "message_id": message.id + 2,
+        })
+
+        if len(final_output) > 4096:
+            with open("shell_output.txt", "w+", encoding="utf8") as out_file:
+                out_file.write(final_output)
+            await status_message.reply_document(
+                document="shell_output.txt",
+                disable_notification=True,
+            )
+            os.remove("shell_output.txt")
+        else:
+            bot_username = (await assistant.get_me()).username
+            try:
+                inline = await client.get_inline_bot_results(bot=bot_username, query=f"sh_{client.me.id}")
+                await asyncio.gather(
+                    status_message.delete(),
+                    client.send_inline_bot_result(
+                        message.chat.id,
+                        inline.query_id,
+                        inline.results[0].id,
+                        reply_to_message_id=ReplyCheck(message)
+                    )
+                )
+            except Exception as e:
+                await status_message.edit_text(str(e))
+
+    task = asyncio.create_task(execute_shell())
     running_tasks[task_id] = task
     await status_message.edit_text(f"**Task Started**\nTask ID: `{task_id}`")
     try:
