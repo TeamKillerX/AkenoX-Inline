@@ -241,6 +241,38 @@ async def eval_inline(client, inline_query):
     except Exception as e:
         LOGS.info(f"Query ID: {inline_query.id}: {e}")
 
+@RENDYDEV.inline(regex="^sh_")
+async def shell_inline(client, inline_query):
+    data = user_inline(inline_query, access="_")
+    user_id = int(data[1])
+
+    # Fetch stored command result
+    shell_result = await db_client.get_env(f"SH:{user_id}")
+
+    if not shell_result:
+        return await client.answer_inline_query(inline_query.id, results=[], cache_time=10)
+
+    chat_id = shell_result.get('chat_id')
+    message_id = shell_result.get('message_id')
+    input_text = shell_result.get('input_text', "No output available.")
+
+    # Inline Button for closing
+    bttn = [[InlineKeyboardButton("Close", callback_data=f"close_{chat_id}_{message_id}")]]
+
+    # Generate inline response
+    answers = BuilderInline.send_text_inline(
+        inline_text=f"<pre>{input_text}</pre>",
+        reply_markup=InlineKeyboardMarkup(bttn)
+    )
+
+    try:
+        await client.answer_inline_query(inline_query.id, results=answers, cache_time=10)
+    except Exception as e:
+        LOGS.info(f"Query ID: {inline_query.id}: {e}")
+
+
+
+
 @RENDYDEV.inline(regex="^afkgo:")
 async def afk_inline(client, inline_query):
     data = user_inline(inline_query, access=":")
