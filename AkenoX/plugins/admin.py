@@ -1,7 +1,6 @@
 from AkenoX import *
 from AkenoX.plugins.libso.funcs_admin import *
-from AkenoX.plugins.helper.custom import temporary_mute_user
-from AkenoX.plugins.helper.custom import get_user_info
+from AkenoX.plugins.helper.custom import temporary_mute_user, get_user_info
 from pyrogram.enums import ParseMode
 
 @RENDYDEV.user(prefix=["id"], filters=(filters.me & ~filters.forwarded))
@@ -15,7 +14,8 @@ async def id_handler(client, message):
         chat = message.chat
         user_info = f"<blockquote><b>Chat ID:</b> <code>{chat.id}</code></blockquote>\n"
 
-    await message.reply_text(user_info, parse_mode="html")
+    await message.reply_text(user_info, parse_mode=ParseMode.HTML)
+
 
 
 
