@@ -184,7 +184,7 @@ async def shell_cmd(client, message):
                 out_file.write(output)
             await message.reply_document("shell_output.txt")
         else:
-            await status_message.edit(f"**Shell Output:**\n<pre>{output}</pre>", parse_mode=ParseMode.HTML)
+            await status_message.edit(f"Shell Output:\n<pre>{output}</pre>", parse_mode=ParseMode.HTML)
 
     except Exception as e:
         await status_message.edit(f"__Error:__ {e}")
