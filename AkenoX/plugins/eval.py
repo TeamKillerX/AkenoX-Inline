@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
 import asyncio
 import inspect
 import io
@@ -155,3 +154,37 @@ async def evaluation_cmd(client, message):
         await task
     finally:
         running_tasks.pop(task_id, None)
+
+@RENDYDEV.user(
+    prefix=["sh"],
+    filters=(
+        ~filters.scheduled
+        & filters.me
+        & ~filters.forwarded
+    ),
+    is_run=False
+)
+async def shell_cmd(client, message):
+    try:
+        cmd = message.text.split(" ", maxsplit=1)[1]  # Extract command
+    except IndexError:
+        return await message.reply("__No command provided!__")
+
+    status_message = await message.reply("__Executing shell command...__")
+
+    try:
+        # Execute the command
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+
+        # Prepare output
+        output = result.stdout or result.stderr or "__No output__"
+
+        if len(output) > 4096:
+            with open("shell_output.txt", "w+", encoding="utf8") as out_file:
+                out_file.write(output)
+            await message.reply_document("shell_output.txt")
+        else:
+            await status_message.edit(f"**Shell Output:**\n<pre>{output}</pre>", parse_mode=ParseMode.HTML)
+
+    except Exception as e:
+        await status_message.edit(f"__Error:__ {e}")
