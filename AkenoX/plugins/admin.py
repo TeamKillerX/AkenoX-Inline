@@ -5,14 +5,15 @@ from AkenoX.plugins.helper.custom import get_user_info
 
 @RENDYDEV.user(prefix=["id"], filters=(filters.me & ~filters.forwarded))
 async def id_handler(client, message):
-    """Fetch user ID and chat ID."""
-    user_info = await get_user_info(client, message)
-    if user_info:
-        chat_id = message.chat.id
-        text = (
-            f" Chat ID: `{chat_id}`\n"
-        )
-        await message.reply_text(text, disable_web_page_preview=True)
+    user = message.reply_to_message.from_user if message.reply_to_message else message.from_user
+    chat = message.chat
+
+    user_info = (
+        f"Chat ID: {chat.id}\n"
+    )
+
+    await message.reply_text(user_info)
+
 
 
 @RENDYDEV.user(prefix=["info"], filters=(filters.me & ~filters.forwarded))
