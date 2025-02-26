@@ -1,6 +1,7 @@
 from AkenoX import *
 from AkenoX.plugins.libso.funcs_afk import *
 
+
 @RENDYDEV.user(
     prefix=["aafk", "afk"],
     filters=(
