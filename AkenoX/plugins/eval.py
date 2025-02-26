@@ -155,6 +155,8 @@ async def evaluation_cmd(client, message):
     finally:
         running_tasks.pop(task_id, None)
 
+import subprocess
+
 @RENDYDEV.user(
     prefix=["sh"],
     filters=(
@@ -176,16 +178,13 @@ async def shell_cmd(client, message):
         return await status_message.edit("__No command provided!__")
 
     async def execute_shell():
-        process = await asyncio.create_subprocess_shell(
-            cmd,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE
+        process = subprocess.Popen(
+            cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
-
-        stdout, stderr = await process.communicate()
+        stdout, stderr = process.communicate()
         output = (stdout.decode().strip() or stderr.decode().strip() or "Success")
 
-        final_output = f"OUTPUT:\n<pre language=''>{output}</pre>"
+        final_output = f"**OUTPUT**:\n<pre language=''>{output}</pre>"
 
         # Store in DB for inline retrieval
         await db_client.set_env(f"SH:{client.me.id}", {
@@ -220,7 +219,7 @@ async def shell_cmd(client, message):
 
     task = asyncio.create_task(execute_shell())
     running_tasks[task_id] = task
-    await status_message.edit_text(f" Task Started \nTask ID: `{task_id}`")
+    await status_message.edit_text(f"**Task Started**\nTask ID: `{task_id}`")
     try:
         await task
     finally:
