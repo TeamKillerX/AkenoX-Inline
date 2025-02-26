@@ -268,8 +268,6 @@ async def eval_inline(client, inline_query):
 async def shell_inline(client, inline_query):
     data = user_inline(inline_query, access="_")
     user_id = int(data[1])
-
-    # Fetch stored command result
     shell_result = await db_client.get_env(f"SH:{user_id}")
 
     if not shell_result:
@@ -279,22 +277,16 @@ async def shell_inline(client, inline_query):
     message_id = shell_result.get('message_id')
     input_text = shell_result.get('input_text', "No output available.")
 
-    # Inline Button for closing
     bttn = [[InlineKeyboardButton("Close", callback_data=f"close_{chat_id}_{message_id}")]]
 
-    # Generate inline response
     answers = BuilderInline.send_text_inline(
         inline_text=f"<pre>{input_text}</pre>",
         reply_markup=InlineKeyboardMarkup(bttn)
     )
-
     try:
         await client.answer_inline_query(inline_query.id, results=answers, cache_time=10)
     except Exception as e:
         LOGS.info(f"Query ID: {inline_query.id}: {e}")
-
-
-
 
 @RENDYDEV.inline(regex="^afkgo:")
 async def afk_inline(client, inline_query):
@@ -413,7 +405,7 @@ async def ping_inline(client, inline_query):
     setting_ = "Enabled" if antipm else "Disabled"
     if RENDYDEV.client_me().me.is_premium:
         msg = f"""
-        <b>sabo-Inline X+ Plus</b>
+        <b>AkenoX-Inline X+ Plus</b>
         <b>Status :</b> <i>Ultra Diamond</i>
         <b>dc_id:</b> <code>{user.dc_id}</code>
         <b>ping_dc:</b> <code>{ping}</code>
@@ -427,7 +419,7 @@ async def ping_inline(client, inline_query):
         """
     else:
         msg = f"""
-        <b>sabo-Inline X+ Plus</b>
+        <b>AkenoX-Inline X+ Plus</b>
         <b>Status:</b> <i>PRO</i>
         <b>dc_id:</b> <code>{user.dc_id}</code>
         <b>ping_dc:</b> <code>{ping}</code>
