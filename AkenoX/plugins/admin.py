@@ -1,7 +1,9 @@
-from AkenoX import *
-from AkenoX.plugins.libso.funcs_admin import *
-from AkenoX.plugins.helper.custom import temporary_mute_user, get_user_info
 from pyrogram.enums import ParseMode
+
+from AkenoX import *
+from AkenoX.plugins.helper.custom import get_user_info, temporary_mute_user
+from AkenoX.plugins.libso.funcs_admin import *
+
 
 @RENDYDEV.user(prefix=["id"], filters=(filters.me & ~filters.forwarded))
 async def id_handler(client, message):
@@ -23,11 +25,11 @@ async def id_handler(client, message):
 @RENDYDEV.user(prefix=["info"], filters=(filters.me & ~filters.forwarded))
 async def userinfo_handler(client, message):
     if message.reply_to_message and message.reply_to_message.from_user:
-        user = message.reply_to_message.from_user  
+        user = message.reply_to_message.from_user
     else:
-        user = message.from_user  
+        user = message.from_user
 
-    chat = message.chat  
+    chat = message.chat
 
     user_info = (
         f"Name: {user.first_name} {user.last_name or ''}\n"

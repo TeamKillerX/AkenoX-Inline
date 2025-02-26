@@ -1,13 +1,16 @@
-from AkenoX import *
 import os
 import subprocess
 import sys
+
 from pyrogram import filters
+
+from AkenoX import *
+
 
 @RENDYDEV.user(prefix=["update"], filters=filters.me)
 async def update_bot(client, message):
     """Pulls updates, rebuilds, and restarts the bot inside Docker."""
-    
+
     msg = await message.reply_text("🔄 Updating bot, please wait...")
 
     try:
