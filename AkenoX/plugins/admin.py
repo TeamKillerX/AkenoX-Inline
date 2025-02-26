@@ -6,13 +6,13 @@ from pyrogram.enums import ParseMode
 @RENDYDEV.user(prefix=["id"], filters=(filters.me & ~filters.forwarded))
 async def id_handler(client, message):
     if message.reply_to_message and message.reply_to_message.from_user:
-        # If the command is used by replying to a user, fetch their User ID
+        # Fetch User ID from the replied message
         user = message.reply_to_message.from_user
-        user_info = f"<blockquote> <b>User ID:</b> <code>{user.id}</code></blockquote>\n"
+        user_info = f"<blockquote><b>User ID:</b> <code>{user.id}</code></blockquote>"
     else:
-        # If no reply, fetch the Chat ID
+        # Fetch Chat ID if no user is replied to
         chat = message.chat
-        user_info = f"<blockquote><b>Chat ID:</b> <code>{chat.id}</code></blockquote>\n"
+        user_info = f"<blockquote><b>Chat ID:</b> <code>{chat.id}</code></blockquote>"
 
     await message.reply_text(user_info, parse_mode=ParseMode.HTML)
 
