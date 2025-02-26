@@ -26,11 +26,10 @@ async def userinfo_handler(client, message):
     user_info = await get_user_info(client, message)
     if user_info:
         text = (
-            f" User Info:\n"
-            f" Name: {user_info['first_name']}\n"
-            f" Username: {user_info['username']}\n"
-            f" User ID: {user_info['user_id']}\n"
-            f" Mention: {user_info['mention']}"
+        f" Name: {user.first_name} {user.last_name or ''}\n"
+        f" User ID: {user.id}\n"
+        f" Username: @{user.username if user.username else 'N/A'}\n"
+        f" Chat ID: {chat.id}\n"
         )
         await message.reply_text(text, disable_web_page_preview=True)
 
