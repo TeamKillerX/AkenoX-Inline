@@ -22,16 +22,22 @@ async def id_handler(client, message):
 
 @RENDYDEV.user(prefix=["info"], filters=(filters.me & ~filters.forwarded))
 async def userinfo_handler(client, message):
-    """Fetch user details and display them."""
-    user_info = await get_user_info(client, message)
-    if user_info:
-        text = (
-        f" Name: {user.first_name} {user.last_name or ''}\n"
-        f" User ID: {user.id}\n"
-        f" Username: @{user.username if user.username else 'N/A'}\n"
-        f" Chat ID: {chat.id}\n"
-        )
-        await message.reply_text(text, disable_web_page_preview=True)
+    if message.reply_to_message and message.reply_to_message.from_user:
+        user = message.reply_to_message.from_user  
+    else:
+        user = message.from_user  
+
+    chat = message.chat  
+
+    user_info = (
+        f"Name: {user.first_name} {user.last_name or ''}\n"
+        f"User ID: {user.id}\n"
+        f"Username: @{user.username if user.username else 'N/A'}\n"
+        f"Chat ID: {chat.id}\n"
+    )
+
+    await message.reply_text(user_info)
+
 
 
 @RENDYDEV.user(prefix=["promote", "fullpromote"], filters=(filters.me & ~filters.forwarded))
