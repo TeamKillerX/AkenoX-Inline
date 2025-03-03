@@ -6,6 +6,7 @@ from pyrogram import filters
 
 from AkenoX import *
 
+
 @RENDYDEV.user(prefix=["update"], filters=filters.me)
 async def update_bot(client, message):
     """Pulls updates, rebuilds, and restarts the bot inside Docker."""
