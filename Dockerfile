@@ -34,8 +34,7 @@ COPY . .
 
 RUN mkdir -p AkenoX/plugins \
     && chown -R 1000:0 . \
-    && chmod -R 777 /usr/src/app \
-    && chmod -R 777 /usr
+    && chmod -R 755 /usr/src/app
 
 COPY start.sh /usr/src/app/start.sh
 RUN chmod +x /usr/src/app/start.sh
