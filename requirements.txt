@@ -78,3 +78,6 @@ cohere
 python-box
 meval
 Cython
+click
+fastapi[standard]
+uvicorn[standard]

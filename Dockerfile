@@ -23,9 +23,19 @@ RUN apt -qq update && \
 
 WORKDIR /usr/src/app
 
-COPY . .
-RUN pip3 install --upgrade pip setuptools==59.6.0
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+ENV UV_CACHE_DIR=/usr/src/app/.cache/uv
 
-CMD ["python3", "-m", "AkenoX"]
+RUN pip install --no-cache-dir uv
+
+COPY requirements.txt .
+RUN uv pip install --system -r requirements.txt
+
+COPY . .
+
+RUN mkdir -p AkenoX/plugins \
+    && chown -R 1000:0 . \
+    && chmod -R 755 /usr/src/app
+
+COPY start.sh /usr/src/app/start.sh
+RUN chmod +x /usr/src/app/start.sh
+CMD ["/usr/src/app/start.sh"]
